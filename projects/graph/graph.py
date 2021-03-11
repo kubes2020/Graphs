@@ -1,11 +1,23 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+'''
+{
+    '0': {'1', '3'},
+    '1': {'0'},
+    '2': set(),
+    '3': {'0'}
+}
+'''
 
+
+
+
+from util import Stack, Queue  # These may come in handy
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -13,26 +25,72 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            # add a vertex the same way we add to a dictionary
+            self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]  # return pointers going out from key we passed into function
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # BFS(graph, startVert):
+        # for v of graph.vertexes:
+        #     v.color = white
+        # startVert.color = gray  # make starting vertex gray
+        # queue.enqueue(startVert)  # add starting vert to queue
+        # while !queue.isEmpty():  # while not empty
+        #     u = queue[0]  # Peek at head of the queue, but do not dequeue!
+        #     for v of u.neighbors:  # iterate
+        #         if v.color == white:
+        #             v.color = gray  # turn it gray
+        #             queue.enqueue(v)  # add to queue
+        #     queue.dequeue()  # interact with the vert, then turn it black
+        #     u.color = black
+
+        # vertex_queue = [] # create your own queue
+
+        # for vertex in self.vertices:
+        #     vertex.color = "white"  # we just made the class color
+        # starting_vertex.color = "gray"
+        # vertex.queue.append(starting_vertex)
+        # while len(vertex_queue) > 0:
+        #     current = vertex_queue[0]
+        #     for neighbor in self.vertices[current]: #iterate through neighbors of current
+        #         if neighbor.color == "white":
+        #             neighbor.color = "gray"
+        #             vertex_queue.append(neighbor)
+        #     vertex_queue.pop(0)
+        #     current.color = "black"
+
+        #     def bft(self, starting_vertex_id):
+
+        """
+        Doc's code
+        """
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for next_vert in self.get_neighbors(v):
+                    q.enqueue(next_vert)
 
     def dft(self, starting_vertex):
         """
@@ -75,6 +133,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
